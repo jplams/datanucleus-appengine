@@ -1,0 +1,90 @@
+// Copyright 2008 Google Inc. All Rights Reserved.
+package org.datanucleus.store.appengine;
+
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query;
+
+import org.datanucleus.test.Flight;
+import org.datanucleus.test.HasAncestorJPA;
+
+/**
+ * @author Max Ross <maxr@google.com>
+ */
+public class JPAAncestorTest extends JPATestCase {
+
+  public void testInsert() {
+    Entity flightEntity = Flight.newFlightEntity("max", "bos", "mia", 3, 4);
+    ldth.ds.put(flightEntity);
+    Key flightKey = flightEntity.getKey();
+    HasAncestorJPA ha = new HasAncestorJPA(KeyFactory.keyToString(flightKey));
+    beginTxn();
+    em.persist(ha);
+    commitTxn();
+    Key keyWithParent = KeyFactory.stringToKey(ha.getId());
+    assertEquals(flightKey, keyWithParent.getParent());
+    // now we'll issue an ancestor query directly against the datastore and see
+    // if our object comes back.
+    Query q = new Query(ha.getClass().getSimpleName());
+    q.setAncestor(flightKey);
+    Entity result = ldth.ds.prepare(q).asSingleEntity();
+    assertEquals(flightKey, result.getKey().getParent());
+  }
+
+  public void testInsertWithNamedKey() {
+    Entity flightEntity = Flight.newFlightEntity("parent named key", "max", "bos", "mia", 3, 4);
+    ldth.ds.put(flightEntity);
+    Key flightKey = flightEntity.getKey();
+    HasAncestorJPA ha = new HasAncestorJPA(KeyFactory.keyToString(flightKey), "named key");
+    beginTxn();
+    em.persist(ha);
+    commitTxn();
+    Key keyWithParent = KeyFactory.stringToKey(ha.getId());
+    assertEquals(flightKey, keyWithParent.getParent());
+    // now we'll issue an ancestor query directly against the datastore and see
+    // if our object comes back.
+    Query q = new Query(ha.getClass().getSimpleName());
+    q.setAncestor(flightKey);
+    Entity result = ldth.ds.prepare(q).asSingleEntity();
+    assertEquals(flightKey, result.getKey().getParent());
+    assertEquals("named key", result.getKey().getName());
+    assertEquals("parent named key", result.getKey().getParent().getName());
+  }
+
+  public void testFetch() {
+    Entity flightEntity = Flight.newFlightEntity("max", "bos", "mia", 3, 4);
+    ldth.ds.put(flightEntity);
+    Entity hasAncestorEntity = new Entity(HasAncestorJPA.class.getSimpleName(), flightEntity.getKey());
+    ldth.ds.put(hasAncestorEntity);
+
+    beginTxn();
+    HasAncestorJPA ha = em.find(HasAncestorJPA.class, KeyFactory.keyToString(hasAncestorEntity.getKey()));
+    assertEquals(KeyFactory.keyToString(flightEntity.getKey()), ha.getAncestorId());
+    commitTxn();
+  }
+
+  public void testFetchWithNamedKey() {
+    Entity flightEntity = Flight.newFlightEntity("named parent key", "max", "bos", "mia", 3, 4);
+    ldth.ds.put(flightEntity);
+    Entity hasAncestorEntity =
+        new Entity(HasAncestorJPA.class.getSimpleName(), "named key", flightEntity.getKey());
+    ldth.ds.put(hasAncestorEntity);
+
+    beginTxn();
+    HasAncestorJPA ha = em.find(HasAncestorJPA.class, KeyFactory.keyToString(hasAncestorEntity.getKey()));
+    assertEquals(KeyFactory.keyToString(flightEntity.getKey()), ha.getAncestorId());
+    assertEquals("named key", KeyFactory.stringToKey(ha.getId()).getName());
+    assertEquals("named parent key", KeyFactory.stringToKey(ha.getId()).getParent().getName());
+    commitTxn();
+  }
+
+  public void testInsertWithNullAncestor() {
+    HasAncestorJPA ha = new HasAncestorJPA(null);
+    beginTxn();
+    em.persist(ha);
+    commitTxn();
+    Key keyWithParent = KeyFactory.stringToKey(ha.getId());
+    assertNull(keyWithParent.getParent());
+  }
+}
