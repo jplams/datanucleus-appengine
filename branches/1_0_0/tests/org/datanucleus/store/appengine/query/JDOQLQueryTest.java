@@ -15,6 +15,7 @@ limitations under the License.
 **********************************************************************/
 package org.datanucleus.store.appengine.query;
 
+import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -23,9 +24,12 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query.SortPredicate;
 import com.google.appengine.api.users.User;
+import com.google.apphosting.api.ApiProxy;
 
+import org.datanucleus.exceptions.NucleusDataStoreException;
 import org.datanucleus.jdo.JDOQuery;
 import org.datanucleus.query.expression.Expression;
+import org.datanucleus.store.appengine.ExceptionThrowingDatastoreDelegate;
 import org.datanucleus.store.appengine.JDOTestCase;
 import org.datanucleus.store.appengine.Utils;
 import org.datanucleus.test.BidirectionalChildListJDO;
@@ -354,6 +358,7 @@ public class JDOQLQueryTest extends JDOTestCase {
     @SuppressWarnings("unchecked")
     List<Flight> result3 = (List<Flight>) q.execute();
     assertEquals(1, result3.size());
+    assertEquals("1", result3.get(0).getName());
 
     q.setRange(0, 2);
     @SuppressWarnings("unchecked")
@@ -546,7 +551,7 @@ public class JDOQLQueryTest extends JDOTestCase {
     assertEquals(flightEntity.getKey(), KeyFactory.stringToKey(haList.get(0).getAncestorId()));
 
     assertEquals(
-        flightEntity.getKey(), getDatastoreQuery(q).getMostRecentDatastoreQuery().getAncestor());
+        flightEntity.getKey(), getDatastoreQuery(q).getDatastoreQuery().getAncestor());
     assertEquals(NO_FILTERS, getFilterPredicates(q));
     assertEquals(NO_SORTS, getSortPredicates(q));
   }
@@ -1042,6 +1047,15 @@ public class JDOQLQueryTest extends JDOTestCase {
     assertEquals(Long.valueOf(e.getKey().getId()), results2.get(0).getId());
   }
 
+  public void testSortByUnknownProperty() {
+    try {
+      pm.newQuery("select from " + Flight.class.getName() + " order by dne").execute();
+      fail("expected exception");
+    } catch (JDOUserException e) {
+      // good
+    }
+  }
+
   public void testSetOrdering() {
     Entity e1 = newFlightEntity("harold", "bos", "mia", 23, 24, 25);
     Entity e2 = newFlightEntity("harold", "bos", "mia", 33, 34, 35);
@@ -1056,6 +1070,62 @@ public class JDOQLQueryTest extends JDOTestCase {
     Flight f2 = results.get(1);
     assertEquals(KeyFactory.stringToKey(f2.getId()), e2.getKey());
     assertEquals(KeyFactory.stringToKey(f1.getId()), e1.getKey());
+  }
+
+  public void testDatastoreFailureWhileIterating() {
+    ExceptionThrowingDatastoreDelegate.ExceptionPolicy policy =
+        new ExceptionThrowingDatastoreDelegate.BaseExceptionPolicy() {
+          int count = 0;
+          protected void doIntercept(String methodName) {
+            count++;
+            if (count == 4) {
+              throw new DatastoreFailureException("boom");
+            }
+          }
+        };
+    ExceptionThrowingDatastoreDelegate dd =
+        new ExceptionThrowingDatastoreDelegate(ApiProxy.getDelegate(), policy);
+    ApiProxy.setDelegate(dd);
+
+    Entity e1 = newFlightEntity("harold", "bos", "mia", 23, 24, 25);
+    Entity e2 = newFlightEntity("harold", "bos", "mia", 33, 34, 35);
+    ldth.ds.put(e1);
+    ldth.ds.put(e2);
+    Query q = pm.newQuery(Flight.class);
+    @SuppressWarnings("unchecked")
+    List<Flight> results = (List<Flight>) q.execute();
+    try {
+      results.size();
+      fail("expected exception");
+    } catch (NucleusDataStoreException e) { // DataNuc bug - they should be wrapping with JDO exceptions
+      // good
+      assertTrue(e.getCause() instanceof DatastoreFailureException);
+    }
+  }
+
+  public void testBadRequest() {
+    ExceptionThrowingDatastoreDelegate.ExceptionPolicy policy =
+        new ExceptionThrowingDatastoreDelegate.BaseExceptionPolicy() {
+          int count = 0;
+          protected void doIntercept(String methodName) {
+            count++;
+            if (count == 1) {
+              throw new IllegalArgumentException("boom");
+            }
+          }
+        };
+    ExceptionThrowingDatastoreDelegate dd =
+        new ExceptionThrowingDatastoreDelegate(ApiProxy.getDelegate(), policy);
+    ApiProxy.setDelegate(dd);
+
+    Query q = pm.newQuery(Flight.class);
+    try {
+      q.execute();
+      fail("expected exception");
+    } catch (JDOUserException e) {
+      // good
+      assertTrue(e.getCause() instanceof IllegalArgumentException);
+    }
   }
 
   private void assertQueryUnsupportedByOrm(
@@ -1077,7 +1147,7 @@ public class JDOQLQueryTest extends JDOTestCase {
     try {
       q.execute();
       fail("expected IllegalArgumentException for query <" + query + ">");
-    } catch (IllegalArgumentException iae) {
+    } catch (JDOUserException e) {
       // good
     }
   }
@@ -1127,11 +1197,11 @@ public class JDOQLQueryTest extends JDOTestCase {
 }
 
   private List<FilterPredicate> getFilterPredicates(Query q) {
-    return getDatastoreQuery(q).getMostRecentDatastoreQuery().getFilterPredicates();
+    return getDatastoreQuery(q).getDatastoreQuery().getFilterPredicates();
   }
 
   private List<SortPredicate> getSortPredicates(Query q) {
-    return getDatastoreQuery(q).getMostRecentDatastoreQuery().getSortPredicates();
+    return getDatastoreQuery(q).getDatastoreQuery().getSortPredicates();
   }
 
   private void assertQuerySupportedWithExplicitParams(String query,
