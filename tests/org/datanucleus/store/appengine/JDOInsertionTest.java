@@ -31,6 +31,7 @@ import org.datanucleus.test.Person;
 import java.util.Arrays;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOUserException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
@@ -191,7 +192,7 @@ public class JDOInsertionTest extends JDOTestCase {
     // TODO(maxr,bslatkin): Remove this next line once this test
     // is actually working properly.
     pm.currentTransaction().setRetainValues(false);
-    
+
     try {
       HasPromotedTypesJDO pojo = new HasPromotedTypesJDO();
       pojo.setIntVal(33);
@@ -236,5 +237,31 @@ public class JDOInsertionTest extends JDOTestCase {
       pmf.close();
     }
   }
-}
 
+  public void testInsertMultipleEntityGroups() {
+    Flight f1 = new Flight();
+    f1.setOrigin("BOS");
+    f1.setDest("MIA");
+    f1.setMe(2);
+    f1.setYou(4);
+    f1.setName("Harold");
+
+    Flight f2 = new Flight();
+    f2.setOrigin("BOS");
+    f2.setDest("MIA");
+    f2.setMe(2);
+    f2.setYou(4);
+    f2.setName("Harold");
+
+    beginTxn();
+    pm.makePersistent(f1);
+    try {
+      pm.makePersistent(f2);
+      fail("expected exception");
+    } catch (JDOUserException iae) {
+      // good
+    } finally {
+      rollbackTxn();
+    }
+  }
+}
