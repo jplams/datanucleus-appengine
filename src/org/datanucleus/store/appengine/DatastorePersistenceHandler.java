@@ -27,6 +27,7 @@ import org.datanucleus.ObjectManager;
 import org.datanucleus.StateManager;
 import org.datanucleus.exceptions.NucleusObjectNotFoundException;
 import org.datanucleus.exceptions.NucleusOptimisticException;
+import org.datanucleus.exceptions.NucleusDataStoreException;
 import org.datanucleus.metadata.AbstractClassMetaData;
 import org.datanucleus.metadata.AbstractMemberMetaData;
 import org.datanucleus.metadata.VersionMetaData;
@@ -40,6 +41,7 @@ import org.datanucleus.store.mapped.mapping.MappingCallbacks;
 import org.datanucleus.util.NucleusLogger;
 
 import java.util.Map;
+import java.util.ConcurrentModificationException;
 
 /**
  * @author Max Ross <maxr@google.com>
@@ -122,37 +124,46 @@ public class DatastorePersistenceHandler implements StorePersistenceHandler {
       }
     }
     DatastoreTransaction txn = getCurrentTransaction(om);
-    if (txn == null) {
-      datastoreService.put(entity);
-    } else if (txn.getDeletedKeys().contains(entity.getKey())) {
-      // entity was already deleted - just skip it
-      // I'm a bit worried about swallowing user errors but we'll
-      // see what bubbles up when we launch.  In theory we could
-      // keep the entity that the user was deleting along with the key
-      // and check to see if they changed anything between the
-      // delete and the put.
-    } else {
-      Entity previouslyPut = txn.getPutEntities().get(entity.getKey());
-      // It's ok to put if we haven't put this entity before or we have
-      // and something has changed.  The reason we want to reput if something has
-      // changed is that this will generate a datastore error, and we want users
-      // to get this error because it means they have done something wrong.
+    try {
+      if (txn == null) {
+        datastoreService.put(entity);
+      } else if (txn.getDeletedKeys().contains(entity.getKey())) {
+        // entity was already deleted - just skip it
+        // I'm a bit worried about swallowing user errors but we'll
+        // see what bubbles up when we launch.  In theory we could
+        // keep the entity that the user was deleting along with the key
+        // and check to see if they changed anything between the
+        // delete and the put.
+      } else {
+        Entity previouslyPut = txn.getPutEntities().get(entity.getKey());
+        // It's ok to put if we haven't put this entity before or we have
+        // and something has changed.  The reason we want to reput if something has
+        // changed is that this will generate a datastore error, and we want users
+        // to get this error because it means they have done something wrong.
 
-      // TODO(maxr) Throw this exception ourselves with lots of good error detail.
-      if (previouslyPut == null || !previouslyPut.getProperties().equals(entity.getProperties()))
-        datastoreService.put(txn.getInnerTxn(), entity);
-        txn.addPutEntity(entity);
+        // TODO(maxr) Throw this exception ourselves with lots of good error detail.
+        if (previouslyPut == null || !previouslyPut.getProperties().equals(entity.getProperties()))
+          datastoreService.put(txn.getInnerTxn(), entity);
+          txn.addPutEntity(entity);
+      }
+    } catch (ConcurrentModificationException e) {
+      throw new NucleusDataStoreException("Datastore threw a ConcurrentModificationException", e);
     }
+
     return txn;
   }
 
   private void delete(ObjectManager om, Key key) {
     NucleusLogger.DATASTORE.debug("Deleting entity of kind " + key.getKind() + " with key " + key);
     DatastoreTransaction txn = getCurrentTransaction(om);
-    if (txn == null) {
-      datastoreService.delete(key);
-    } else {
-      datastoreService.delete(txn.getInnerTxn(), key);
+    try {
+      if (txn == null) {
+        datastoreService.delete(key);
+      } else {
+        datastoreService.delete(txn.getInnerTxn(), key);
+      }
+    } catch (ConcurrentModificationException e) {
+      throw new NucleusDataStoreException("Datastore threw a ConcurrentModificationException", e);
     }
   }
 
