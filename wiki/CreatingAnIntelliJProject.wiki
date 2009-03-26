@@ -1,0 +1,18 @@
+#summary How to create an IntelliJ project for the datanucleus-appengine plugin.
+
+= How To Create An IntelliJ Project For The !DataNucleus App Engine Plugin =
+These instructions assume you are using IntelliJ 8.
+
+ * Checkout the source from svn:{{{
+svn checkout https://datanucleus-appengine.googlecode.com/svn/trunk . --username <your username>
+}}}
+ * Launch IntelliJ
+ * 
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
