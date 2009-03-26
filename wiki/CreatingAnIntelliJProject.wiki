@@ -1,14 +1,19 @@
 #summary How to create an IntelliJ project for the datanucleus-appengine plugin.
 
 = How To Create An IntelliJ Project For The !DataNucleus App Engine Plugin =
-These instructions assume you are using IntelliJ 8.
+These instructions assume you are using IntelliJ 8.1.
 
- * Checkout the source from svn:{{{
-svn checkout https://datanucleus-appengine.googlecode.com/svn/trunk . --username <your username>
-}}}
+ * Follow the instructions at http://code.google.com/p/datanucleus-appengine/source/checkout to checkout the source from svn.  The remainder of these instructions assume you checked out the source into a directory named "dnae" located in /usr/local/dev.
  * Launch IntelliJ
+ * From the File menu select "New Project", choose "Create Java project from existing sources" from the next screen, and then click "Next."
+ * In the next window, set the "Name" field to be "dnae" and the "Project files location" field to be "/usr/local/dev/dnae".   The value of the "Project storage format" drop-down should be ".ipr (file based)"
+ * Click "Next."
+ * IntelliJ will find 4 directories with source files.  Clear the checkbox for the one named "/usr/local/dev/dnae/testing/library/src"  Leave the other 3 selected and click "Next."
+ * IntelliJ will create a library named "lib."  You don't want this.  Clear the checkbox next to the library named "lib."
+ * IntelliJ will create two modules - one named "Dnae" and one named "Helloorm."  Leave both of these checked and click "Next."
+ * IntelliJ will detect a total of 5 facets for these modules.  Clear the checkboxes next to all of them and click "Finish."
+ * You should now have a project with two modules listed on the left: "Dnae" and "Helloorm."  The Google App Engine SDK supports java 5 so, in order to ensure that we don't accidentally introduce and java 6 dependencies we need to make sure we're compiling against a java 5 jdk.  To do this, right click on the "Dnaetest" module and choose "Project Structure."
  * 
-
 
 = Details =
 
