@@ -44,7 +44,8 @@ These instructions assume you are using IntelliJ 8.1.
  * You should now be able to build the project:  Go to the "Build" menu and select "Make Project."
  * Now you're ready to run the test suite.  In order to run unit tests inside IntelliJ you need to set a couple of jvm flags.  These flags are listed in dnae/test/README but we'll walk through the process of adding them in IntelliJ.
  * Go to the "Run" menu, select "Edit Configurations," and then click the "Edit Defaults" button in the lower left.
- * Select "JUnit" from the list on the left and then set the "VM parameters" field to the following: {{{
+ * Select "JUnit" from the list on the left and then set the "VM parameters" field to the following:
+{{{
 -javaagent:lib/datanucleus-enhancer-1.1.0.jar=org.datanucleus.test -Dappengine.orm.disable.duplicate.emf.exception -Dappengine.orm.disable.duplicate.pmf.exception
 }}}
  * Click "OK"
