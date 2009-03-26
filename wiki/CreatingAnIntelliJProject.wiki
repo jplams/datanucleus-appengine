@@ -13,7 +13,7 @@ These instructions assume you are using IntelliJ 8.1.
  * IntelliJ will create a library named "lib."  You don't want this.  Clear the checkbox next to the library named "lib."
  * IntelliJ will create two modules - one named "Dnae" and one named "Helloorm."  Leave both of these checked and click "Next."
  * IntelliJ will detect a total of 5 facets for these modules.  Clear the checkboxes next to all of them and click "Finish."
- * You should now have a project with two modules listed on the left: "Dnae" and "Helloorm."  The Google App Engine SDK supports java 5 so, in order to ensure that we don't accidentally introduce and java 6 dependencies we need to make sure we're compiling against a java 5 sdk.  To do this, right click on the "Dnaetest" module, choose "Project Structure," and then select "Project" from the list of options on the left.
+ * You should now have a project with two modules listed on the left: "Dnae" and "Helloorm."  The Google App Engine SDK supports java 5 so, in order to ensure that we don't accidentally introduce and java 6 dependencies we need to make sure we're compiling against a java 5 sdk.  To do this, right click on the "Dnae" module, choose "Project Structure," and then select "Project" from the list of options on the left.
  * Under "Project SDK," choose a Java 5 SDK.  Under "Project language level" make sure "5.0" is selected.
  * Select "Modules" from the list of options on the left and then select "Dnae" from the list that appears just to the right.
  * Click on the "Dependencies" tab, click the "Add" button, and then choose "Single-Entry Module Library" from the list that appears.
