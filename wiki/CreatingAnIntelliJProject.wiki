@@ -1,4 +1,5 @@
 #summary How to create an IntelliJ project for the datanucleus-appengine plugin.
+#labels IntelliJ,IDE
 
 = How To Create An IntelliJ Project For The !DataNucleus App Engine Plugin =
 These instructions assume you are using IntelliJ 8.1.
@@ -38,12 +39,14 @@ These instructions assume you are using IntelliJ 8.1.
  * Click "OK"
  * Click "OK" again
  * Now we need to tell the compiler about a couple of file types that it doesn't consider by default.  Go to the "File" menu and select "Settings."  Then, on the left, select "Compiler."
- * In the "Resource 
-    * You should now be able to build the project:  Go to the "Build" menu and select "Rebuild Project."
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * In the "Resource patterns" field on the left you'll need to append the following to the existing value: ;?*.MF;javax.*
+ * Click "OK"
+ * You should now be able to build the project:  Go to the "Build" menu and select "Make Project."
+ * Now you're ready to run the test suite.  In order to run unit tests inside IntelliJ you need to set a couple of jvm flags.  These flags are listed in dnae/test/README but we'll walk through the process of adding them in IntelliJ.
+ * Go to the "Run" menu, select "Edit Configurations," and then click the "Edit Defaults" button in the lower left.
+ * Select "JUnit" from the list on the left and then set the "VM parameters" field to the following: {{{
+-javaagent:lib/datanucleus-enhancer-1.1.0.jar=org.datanucleus.test -Dappengine.orm.disable.duplicate.emf.exception -Dappengine.orm.disable.duplicate.pmf.exception
+}}}
+ * Click "OK"
+ * Click "OK" again
+ * You're now ready to run the test suite.  Open up org.datanucleus.store.appengine.AllTests and from the "Run" menu select "Run."  Click the "Run" button in the lower right corner of the window that pops up.  All tests should pass.  If they don't I give you permission to yell at me for bad hygiene.
