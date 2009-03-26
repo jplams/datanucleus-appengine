@@ -53,4 +53,4 @@ These instructions assume you are using IntelliJ 8.1.
 }}}
  * Click "OK"
  * Click "OK" again
- * You're now ready to run the test suite.  Open up org.datanucleus.store.appengine.AllTests and from the "Run" menu select "Run."  Click the "Run" button in the lower right corner of the window that pops up.  All tests should pass.  If they don't I give you permission to yell at me for bad hygiene.
+ * You're now ready to run the test suite.  Open up org.datanucleus.store.appengine.!AllTests and from the "Run" menu select "Run."  Click the "Run" button in the lower right corner of the window that pops up.  All tests should pass.  If they don't I give you permission to yell at me for bad hygiene.
