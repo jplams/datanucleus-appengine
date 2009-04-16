@@ -1,4 +1,4 @@
-#summary One-Tracks compatibility of the DataNucleus App Engine plugin
+#summary Tracks compatibility of the DataNucleus App Engine plugin
 
 =!DataNucleus App Engine Plugin Compatibility=
 
