@@ -1,6 +1,6 @@
 #summary One-Tracks compatibility of the DataNucleus App Engine plugin
 
-=DataNucleus App Engine Plugin Compatibility=
+=!DataNucleus App Engine Plugin Compatibility=
 
 *1.0.0:*<br>
 Requires DataNucleus 1.0.0 (core, jpa, enhancer).<br>
