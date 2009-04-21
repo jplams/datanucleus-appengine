@@ -1,0 +1,3 @@
+#summary How to update the SDK with a new plugin version
+
+= How to update the SDK with a new plugin version =
