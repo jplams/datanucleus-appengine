@@ -1,3 +1,11 @@
 #summary How to update the SDK with a new plugin version
 
 = How to update the SDK with a new plugin version =
+
+*Warning*: These instructions only apply if you are only updating the !DataNucleus App Engine plugin and not your entire SDK.  If you are updating the entire SDK these instructions do not apply.
+
+  * Make a copy of your existing SDK directory.
+  * Download the version of the plugin you want to install from http://code.google.com/p/datanucleus-appengine/downloads/list
+  * Move the zip archive you just downloaded to the root of your SDK directory.
+  * Unzip the archive in the root of your SDK directory.
+  * `<`sdk_root`>`/lib/user/orm will now contain datanucleus-appengine-`<`old_version`>`.jar and datanucleus-appengine-`<`new_version`>`.jar.  Delete datanucleus-appengine-`<`old_version`>`.jar.
