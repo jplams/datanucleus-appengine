@@ -3,5 +3,9 @@
 =!DataNucleus App Engine Plugin Compatibility=
 
 *1.0.0:*<br>
-Requires DataNucleus 1.0.0 (core, jpa, enhancer).<br>
+Requires !DataNucleus 1.1.0 (core, jpa, enhancer).<br>
 Requires SDK 1.2.0<br>
+
+*1.0.1:*<br>
+Requires !DataNucleus 1.1.0 (core, jpa, enhancer).<br>
+Requires SDK 1.2.1<br>
