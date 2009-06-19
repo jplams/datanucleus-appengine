@@ -1,4 +1,4 @@
-#summary How to update the SDK with a new plugin version
+#summary How to update the SDK with a new DataNucleus plugin version
 
 = How to update the SDK with a new plugin version =
 
@@ -9,3 +9,4 @@
   * Move the zip archive you just downloaded to the root of your SDK directory.
   * Unzip the archive in the root of your SDK directory.  If you are running OS X be sure to unzip the archive using the command line because it seems if you just use the Finder it will replace the contents of the SDK directory rather than overlay.
   * `<`sdk_root`>`/lib/user/orm will now contain datanucleus-appengine-`<`old_version`>`.jar and datanucleus-appengine-`<`new_version`>`.jar.  Delete datanucleus-appengine-`<`old_version`>`.jar.
+  * If the plugin contains a DataNucleus upgrade you will also need to delete the old DataNucleus jars.  For example, if the version you're installing upgrades DataNucleus from 1.1.0 to 1.1.4 you now have both datanucleus-core-1.1.0.jar and datanucleus-core-1.1.4.jar in `<`sdk_root`>`/lib/user/orm.  Delete the old jar (in this case datanucleus-core-1.1.0.jar).  You'll need to do this for datanucleus-core, datanucleus-jpa, and datanucleus-enhancer.
