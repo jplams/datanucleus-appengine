@@ -29,7 +29,7 @@ These instructions assume you are using IntelliJ 8.1.
     * jdo2-api-2.3-SNAPSHOT.jar
     * junit.jar
     * log4j-1.2.9.jar
- * Do not include datanucleus-enhancer-1.1.0.jar.  We are leaving this out intentionally.
+ * Do not include datanucleus-enhancer-1.1.4.jar.  We are leaving this out intentionally.
  * Click "OK"
  * Now select "Helloorm."  Click on the "Dependencies" tab, click the "Add" button, and then choose "Single-Entry Module Library" from the list that appears.
  * In the window that appears, navigate to /usr/local/dev/dnae/lib and select the following jars:
@@ -49,7 +49,7 @@ These instructions assume you are using IntelliJ 8.1.
  * Go to the "Run" menu, select "Edit Configurations," and then click the "Edit Defaults" button in the lower left.
  * Select "JUnit" from the list on the left and then set the "VM parameters" field to the following:
 {{{
--javaagent:lib/datanucleus-enhancer-1.1.0.jar=org.datanucleus.test -Dappengine.orm.disable.duplicate.emf.exception -Dappengine.orm.disable.duplicate.pmf.exception
+-javaagent:lib/datanucleus-enhancer-1.1.4.jar=org.datanucleus.test -Dappengine.orm.disable.duplicate.emf.exception -Dappengine.orm.disable.duplicate.pmf.exception
 }}}
  * Click "OK"
  * Click "OK" again
