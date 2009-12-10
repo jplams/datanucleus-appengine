@@ -1,0 +1,11 @@
+An application that uses JDO, JPA, or native AppEngine API.
+The application can be tested with Selenium core by loading
+http://localhost:8085/core/TestRunner.html?test=..%2Ftests%2FTestSuite.html in a
+browser.
+
+Load this url in browser to change Data Service API:
+http://localhost:8085/setDataServiceName?DataServiceName
+
+Initial set-up is required for Selenium tests:
+cd testing/library/tools
+./initPromLibrary.py -u http://localhost:8085/library
