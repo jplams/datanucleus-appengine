@@ -21,8 +21,6 @@ import org.datanucleus.ObjectManager;
 import org.datanucleus.jdo.JDOPersistenceManager;
 import org.datanucleus.metadata.MetaDataManager;
 
-import java.util.Map;
-
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -33,8 +31,6 @@ import javax.jdo.PersistenceManagerFactory;
  * @author Max Ross <maxr@google.com>
  */
 public class JDOTestCase extends TestCase {
-
-  private static Map<PersistenceManagerFactoryName, PersistenceManagerFactory> pmfCache = Utils.newHashMap();
 
   protected PersistenceManagerFactory pmf;
   protected PersistenceManager pm;
@@ -48,14 +44,8 @@ public class JDOTestCase extends TestCase {
     ldth = new DatastoreTestHelper();
     ldth.setUp();
     boolean success = false;
-    pmf = pmfCache.get(getPersistenceManagerFactoryName());
     try {
-      if (pmf == null) {
-        pmf = JDOHelper.getPersistenceManagerFactory(getPersistenceManagerFactoryName().name());
-        if (cacheManagers()) {
-          pmfCache.put(getPersistenceManagerFactoryName(), pmf);
-        }
-      }
+      pmf = JDOHelper.getPersistenceManagerFactory(getPersistenceManagerFactoryName().name());
       pm = pmf.getPersistenceManager();
       success = true;
     } finally {
@@ -97,14 +87,7 @@ public class JDOTestCase extends TestCase {
         pm.close();
       }
       pm = null;
-      // see if anybody closed any of our pms just remove them from the cache -
-      // we'll rebuild it the next time it's needed.
-      for (Map.Entry<PersistenceManagerFactoryName, PersistenceManagerFactory> entry : pmfCache.entrySet()) {
-        if (entry.getValue().isClosed()) {
-          pmfCache.remove(entry.getKey());
-        }
-      }
-      if (!cacheManagers() && !pmf.isClosed()) {
+      if (!pmf.isClosed()) {
         pmf.close();
       }
       pmf = null;
@@ -145,9 +128,7 @@ public class JDOTestCase extends TestCase {
 
   protected void switchDatasource(PersistenceManagerFactoryName name) {
     pm.close();
-    if (!cacheManagers() && !pmf.isClosed()) {
-      pmf.close();
-    }
+    pmf.close();
     pmf = JDOHelper.getPersistenceManagerFactory(name.name());
     pm = pmf.getPersistenceManager();
   }
@@ -173,7 +154,4 @@ public class JDOTestCase extends TestCase {
     return ((JDOPersistenceManager)pm).getObjectManager();
   }
 
-  private boolean cacheManagers() {
-    return !Boolean.valueOf(System.getProperty("do.not.cache.managers"));
-  }
 }

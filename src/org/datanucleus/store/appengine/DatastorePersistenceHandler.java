@@ -378,7 +378,7 @@ public class DatastorePersistenceHandler implements StorePersistenceHandler {
               cmd, entity, op, "The underlying entity had already been updated.");
         }
       }
-      Object nextVersion = vmd.getNextVersion(curVersion);
+      Object nextVersion = cmd.getVersionMetaData().getNextVersion(curVersion);
 
       sm.setTransactionalVersion(nextVersion);
       String versionPropertyName =

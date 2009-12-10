@@ -497,9 +497,6 @@ public class JPAOneToOneTest extends JPATestCase {
   }
 
   public void testChildFetchedLazily() throws Exception {
-    // force a new emf to get created after we've installed our own
-    // DatastoreService mock
-    emf.close();
     tearDown();
     DatastoreService ds = EasyMock.createMock(DatastoreService.class);
     DatastoreService original = DatastoreServiceFactoryInternal.getDatastoreService();
@@ -543,8 +540,6 @@ public class JPAOneToOneTest extends JPATestCase {
       pojo.getId();
       commitTxn();
     } finally {
-      // need to close the emf before we restore the original datastore service
-      emf.close();
       DatastoreServiceFactoryInternal.setDatastoreService(original);
     }
     EasyMock.verify(ds);

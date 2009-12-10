@@ -486,13 +486,10 @@ public class JDOOneToOneTest extends JDOTestCase {
     commitTxn();
   }
 
-
   public void testChildFetchedLazily() throws Exception {
-    // force a new pmf to get created after we've installed our own
-    // DatastoreService mock
-    pmf.close();
     tearDown();
     DatastoreService ds = EasyMock.createMock(DatastoreService.class);
+    DatastoreService original = DatastoreServiceFactoryInternal.getDatastoreService();
     DatastoreServiceFactoryInternal.setDatastoreService(ds);
     Transaction txn;
     try {
@@ -535,9 +532,7 @@ public class JDOOneToOneTest extends JDOTestCase {
       pojo.getId();
       commitTxn();
     } finally {
-      // need to close the pmf before we restore the original datastore service
-      pmf.close();
-      DatastoreServiceFactoryInternal.setDatastoreService(null);
+      DatastoreServiceFactoryInternal.setDatastoreService(original);
     }
     EasyMock.verify(ds);
     EasyMock.verify(txn);

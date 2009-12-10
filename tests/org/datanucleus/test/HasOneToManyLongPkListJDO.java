@@ -24,7 +24,6 @@ import java.util.List;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Order;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -43,14 +42,12 @@ public class HasOneToManyLongPkListJDO implements HasOneToManyLongPkJDO {
   private String val;
 
   @Element(dependent = "true")
-  @Order(column = "flights_INTEGER_IDX_longpk")
   private List<Flight> flights = Utils.newArrayList();
 
   @Persistent(mappedBy = "parent")
   @Element(dependent = "true")
   private List<BidirectionalChildLongPkListJDO> bidirChildren = new ArrayList<BidirectionalChildLongPkListJDO>();
 
-  @Order(column = "hasKeyPks_INTEGER_IDX_longpk")
   private List<HasKeyPkJDO> hasKeyPks = new ArrayList<HasKeyPkJDO>();
 
   public void addFlight(Flight flight) {

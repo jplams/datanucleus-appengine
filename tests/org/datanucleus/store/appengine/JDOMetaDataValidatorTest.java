@@ -67,13 +67,6 @@ import javax.jdo.Query;
  */
 public class JDOMetaDataValidatorTest extends JDOTestCase {
 
-  @Override
-  protected void tearDown() throws Exception {
-    // force a new pmf for each test
-    pmf.close();
-    super.tearDown();
-  }
-
   public void testKeyAncestorPlusNameOnlyPK() {
     HasUnencodedStringPkWithKeyAncestor pojo = new HasUnencodedStringPkWithKeyAncestor();
     pojo.id = "yar";

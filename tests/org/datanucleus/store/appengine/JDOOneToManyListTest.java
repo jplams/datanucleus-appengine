@@ -224,7 +224,7 @@ public class JDOOneToManyListTest extends JDOOneToManyTestCase {
     assertEquals(KeyFactory.stringToKey(f.getId()), flightEntity.getKey());
     assertKeyParentEquals(parent.getClass(), parent.getId(), flightEntity, f.getId());
     if (isIndexed()) {
-      assertEquals(0L, flightEntity.getProperty("flights_INTEGER_IDX_longpk"));
+      assertEquals(0L, flightEntity.getProperty("flights_INTEGER_IDX"));
     }
 
     Entity hasKeyPkEntity = ldth.ds.get(hasKeyPk.getKey());
@@ -233,7 +233,7 @@ public class JDOOneToManyListTest extends JDOOneToManyTestCase {
     assertEquals(hasKeyPk.getKey(), hasKeyPkEntity.getKey());
     assertKeyParentEquals(parent.getClass(), parent.getId(), hasKeyPkEntity, hasKeyPk.getKey());
     if (isIndexed()) {
-      assertEquals(0L, hasKeyPkEntity.getProperty("hasKeyPks_INTEGER_IDX_longpk"));
+      assertEquals(0L, hasKeyPkEntity.getProperty("hasKeyPks_INTEGER_IDX"));
     }
 
     Entity parentEntity = ldth.ds.get(TestUtils.createKey(parent, parent.getId()));
@@ -335,7 +335,6 @@ public class JDOOneToManyListTest extends JDOOneToManyTestCase {
     pojo = pm.getObjectById(HasLongPkOneToManyBidirChildrenJDO.class, pojo.getId());
     assertEquals(1, pojo.getChildAList().size());
     assertEquals(pojo, pojo.getChildAList().get(0).getParent());
-    commitTxn();
   }
 
   public void testUnencodedStringPkOneToManyBidirChildren() {
@@ -351,7 +350,6 @@ public class JDOOneToManyListTest extends JDOOneToManyTestCase {
     pojo = pm.getObjectById(HasUnencodedStringPkOneToManyBidirChildrenJDO.class, pojo.getId());
     assertEquals(1, pojo.getChildAList().size());
     assertEquals(pojo, pojo.getChildAList().get(0).getParent());
-    commitTxn();
   }
 
   public void testFetchOfOneToManyParentWithKeyPk() {
