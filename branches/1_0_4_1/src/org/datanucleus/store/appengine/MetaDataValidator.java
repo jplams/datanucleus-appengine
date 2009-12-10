@@ -27,8 +27,8 @@ import org.datanucleus.metadata.Relation;
 import org.datanucleus.metadata.SequenceMetaData;
 import org.datanucleus.util.NucleusLogger;
 
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * App Engine specific rules for Meta Data.
@@ -98,7 +98,7 @@ public class MetaDataValidator {
   );
 
   private static final String ALLOW_MULTIPLE_RELATIONS_OF_SAME_TYPE =
-      "datanucleus.appengine.multipleRelationsOfSameTypeAreErrors";
+      "datanucleus.appengine.allowMultipleRelationsOfSameType";
 
   private final AbstractClassMetaData acmd;
   private final MetaDataManager metaDataManager;
