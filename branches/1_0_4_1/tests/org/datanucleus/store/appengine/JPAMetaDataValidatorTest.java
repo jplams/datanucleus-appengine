@@ -55,6 +55,9 @@ import org.datanucleus.test.IllegalMappingsJPA.PkNameWithUnencodedStringPrimaryK
 import org.datanucleus.test.IllegalMappingsJPA.SequenceOnEncodedStringPk;
 import org.datanucleus.test.IllegalMappingsJPA.SequenceOnKeyPk;
 
+import java.util.Map;
+
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
 /**
@@ -239,6 +242,12 @@ public class JPAMetaDataValidatorTest extends JPATestCase {
   }
 
   public void testHasMultipleRelationshipFieldsOfSameType() {
+    emf.close();
+    Map<String, String> props = Utils.newHashMap();
+    props.put("datanucleus.appengine.allowMultipleRelationsOfSameType", "false");
+    emf = Persistence.createEntityManagerFactory(getEntityManagerFactoryName().name(), props);
+    em = emf.createEntityManager();
+
     assertMetaDataException(new Has2CollectionsOfSameType());
     assertMetaDataException(new Has2OneToOnesOfSameType());
     assertMetaDataException(new HasOneToOneAndOneToManyOfSameType());

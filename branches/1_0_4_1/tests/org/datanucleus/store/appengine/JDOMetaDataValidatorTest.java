@@ -59,7 +59,10 @@ import org.datanucleus.test.IllegalMappingsJDO.PkNameWithUnencodedStringPrimaryK
 import org.datanucleus.test.IllegalMappingsJDO.SequenceOnEncodedStringPk;
 import org.datanucleus.test.IllegalMappingsJDO.SequenceOnKeyPk;
 
+import java.util.Map;
+
 import javax.jdo.JDOFatalUserException;
+import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
 /**
@@ -268,6 +271,12 @@ public class JDOMetaDataValidatorTest extends JDOTestCase {
   }
 
   public void testHasMultipleRelationshipFieldsOfSameType() {
+    pmf.close();
+    Map<String, String> props = Utils.newHashMap();
+    props.put("datanucleus.appengine.allowMultipleRelationsOfSameType", "false");
+    pmf = JDOHelper.getPersistenceManagerFactory(props, getPersistenceManagerFactoryName().name());
+    pm = pmf.getPersistenceManager();
+
     assertMetaDataException(new Has2CollectionsOfSameType());
     assertMetaDataException(new Has2OneToOnesOfSameType());
     assertMetaDataException(new HasOneToOneAndOneToManyOfSameType());
