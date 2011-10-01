@@ -1,0 +1,7 @@
+#summary How to develop the GAE DataNucleus plugin using Eclipse
+
+= Introduction =
+Simple checkout the code from SVN trunk and then "Import Project" in Eclipse selecting the folder where you checked out the SVN code.
+
+
+= Details =
