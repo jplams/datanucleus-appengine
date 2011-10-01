@@ -1,0 +1,13 @@
+#summary How to develop the GAE DataNucleus plugin using Maven
+
+= Introduction =
+Check out the code from SVN trunk. This comes with a Maven project already defined.
+
+= Details =
+You develop this project using the normal Maven commands. 
+
+Build using
+mvn compile
+
+Run the tests using
+mvn test
