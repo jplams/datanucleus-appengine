@@ -63,8 +63,12 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the Da
 </target>
 }}}
 
+You can find an example of a working ant config in `<new_sdk_root>/demos/helloorm/build.xml`
+
 == Configuration With Eclipse ==
 TODO(maxr)
 
 == Configuration With IntelliJ ==
 (TODO(maxr)
+
+== ==
