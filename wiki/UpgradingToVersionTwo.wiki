@@ -5,4 +5,12 @@
 This page contains instructions for upgrading from version 1.X of the plugin to version 2.X.
 
 
-= Details =
+= Installation =
+
+= Configuration =
+We have removed the App Engine specific JDO and JPA providers in V2, so you'll need to edit your config files as follows:
+
+In jdoconfig.xml, the value of `javax.jdo.PersistenceManagerFactoryClass`
+should now be `org.datanucleus.api.jdo.JDOPersistenceManagerFactory`.
+
+In persistence.xml, the value of `provider` should now be `org.datanucleus.api.jpa.PersistenceProviderImpl`.
