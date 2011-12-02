@@ -1,0 +1,8 @@
+#Instructions for upgrading to version 2.X
+
+= Introduction =
+
+This page contains instructions for upgrading from version 1.X of the plugin to version 2.X.
+
+
+= Details =
