@@ -64,5 +64,7 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the Da
 }}}
 
 == Configuration With Eclipse ==
+TODO(maxr)
 
 == Configuration With IntelliJ ==
+(TODO(maxr)
