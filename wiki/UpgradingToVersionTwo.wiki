@@ -39,12 +39,9 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the Da
 
 <path id="enhancer.classpath">
     <fileset dir="${sdk.dir}/lib/opt/tools/datanucleus/v2">
-        <include name="**/*.jar"/>
+        <include name="**/datanucleus-enhancer*.jar"/>
+        <include name="**/asm-*.jar"/>
     </fileset>
-    <fileset dir="${sdk.dir}/lib/shared">
-        <include name="servlet-api.jar"/>
-    </fileset>
-    <path location="war/WEB-INF/classes"/>
 </path>
 
 <!-- This target should replace your existing datanucleusenhance target -->
@@ -58,6 +55,7 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the Da
         </fileset>
         <classpath>
             <path refid="enhancer.classpath"/>
+            <path refid="project.classpath"/>
         </classpath>
     </datanucleusenhancer>
 </target>
