@@ -55,7 +55,6 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the Da
       description="Starts the development server.">
     <dev_appserver war="war" />
 </target>
-
 }}}
 
 == Configuration With Eclipse ==
