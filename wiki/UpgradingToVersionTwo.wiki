@@ -32,3 +32,32 @@ In jdoconfig.xml, the value of `javax.jdo.PersistenceManagerFactoryClass`
 should now be `org.datanucleus.api.jdo.JDOPersistenceManagerFactory`.
 
 In persistence.xml, the value of `provider` should now be `org.datanucleus.api.jpa.PersistenceProviderImpl`.
+
+== Configuration With Ant ==
+The enhancement Ant task that ships with the SDK does not work with v2 of the DataNucleus plugin, so if you're using Ant you'll need to use the DataNucleus enhancement task directly:
+{{{
+<path id="enhancer.classpath">
+    <fileset dir="${sdk.dir}/lib/tools/orm">
+        <include name="**/*.jar"/>
+    </fileset>
+</path>
+
+<target name="dnv2enhance" description="DataNucleus enhancement">
+    <taskdef name="datanucleusenhancer" classpathref="enhancer.classpath" 
+                classname="org.datanucleus.enhancer.tools.EnhancerTask" />
+
+    <datanucleusenhancer classpathref="enhancer.classpath"
+        failonerror="true" verbose="true">
+    </datanucleusenhancer>
+</target>
+
+<target name="runserver" depends="dnv2enhance"
+      description="Starts the development server.">
+    <dev_appserver war="war" />
+</target>
+
+}}}
+
+== Configuration With Eclipse ==
+
+== Configuration With IntelliJ ==
