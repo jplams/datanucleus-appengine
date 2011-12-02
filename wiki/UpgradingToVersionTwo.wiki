@@ -1,11 +1,29 @@
-#Instructions for upgrading to version 2.X
-
 = Introduction =
 
 This page contains instructions for upgrading from version 1.X of the plugin to version 2.X.
 
 
 = Installation =
+We recommend you make a fresh copy of the SDK, install the DataNucleus plugin there, and then develop against this copy of the SDK. Here is the sequence of commands you can use, assuming your sdk lives in `<sdk_root>`:
+
+Make a copy of the SDK:
+<br>
+{{{
+cp -r <sdk_root><new_sdk_root>
+}}}
+
+Delete all components of the v1 plugin:
+{{{
+rm -rf <new_sdk_root>/lib/user/orm/*
+rm -rf <new_sdk_root>/lib/tools/orm/*
+rm -rf <new_sdk_root>/src/orm/*
+}}}
+
+Unzip the v2 zip archive into `<new_sdk_root>`:
+{{{
+cd <new_sdk_root>
+unzip datanucleus-appengine-2.0.0-RC2-dist.zip
+}}}
 
 = Configuration =
 We have removed the App Engine specific JDO and JPA providers in V2, so you'll need to edit your config files as follows:
