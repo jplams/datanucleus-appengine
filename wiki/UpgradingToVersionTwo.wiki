@@ -34,8 +34,9 @@ should now be `org.datanucleus.api.jdo.JDOPersistenceManagerFactory`.
 In persistence.xml, the value of `provider` should now be `org.datanucleus.api.jpa.PersistenceProviderImpl`.
 
 == Configuration With Ant ==
-The enhancement Ant task that ships with the SDK does not work with v2 of the DataNucleus plugin, so if you're using Ant you'll need to use the DataNucleus enhancement task directly:
+The enhancement Ant task that ships with the SDK does not work with v2 of the DataNucleus plugin, so if you're using Ant you'll need to use the DataNucleus enhancement task directly in your `build.xml`:
 {{{
+
 <path id="enhancer.classpath">
     <fileset dir="${sdk.dir}/lib/opt/tools/datanucleus/v2">
         <include name="**/*.jar"/>
@@ -46,6 +47,7 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the Da
     <path location="war/WEB-INF/classes"/>
 </path>
 
+<!-- This target should replace your existing datanucleusenhance target -->
 <target name="datanucleusenhance" depends="compile" description="DataNucleus enhancement">
     <taskdef name="datanucleusenhancer" classpathref="enhancer.classpath" 
                 classname="org.datanucleus.enhancer.tools.EnhancerTask" />
