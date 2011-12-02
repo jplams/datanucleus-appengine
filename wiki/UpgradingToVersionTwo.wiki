@@ -9,7 +9,7 @@ We recommend you make a fresh copy of the SDK, install the DataNucleus plugin th
 Make a copy of the SDK:
 <br>
 {{{
-cp -r <sdk_root><new_sdk_root>
+cp -r <sdk_root> <new_sdk_root>
 }}}
 
 Delete all components of the v1 plugin:
