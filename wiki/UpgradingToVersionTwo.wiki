@@ -69,7 +69,7 @@ You can find an example of a working ant config in `<new_sdk_root>/demos/helloor
    * Disable the v1 `DataNucleus` enhancement by going to Project --> Properties --> Google --> App Engine --> ORM and then removing any patterns that are listed. Click "OK."
    * Configure your project to use the SDK containing the new version of the `DataNucleus` App Engine plugin by going to Project --> Properties --> Google --> App Engine. Add the SDK by clicking "Configure SDKs" and then select that SDK for your project (Use specific SDK).
    * Install and configure the `DataNucleus` Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. The relevant sections are "Installation," "General Preferences," "Preferences: Enhancer," "Enable `DataNucleus` Support," and "Run the Enhancer."
-  * Adjust Runtime Classpath for the `DataNucleus` Enhancer: Project --> Properties --> `DataNucleus`. Click 'Add Jars' and then add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2. Click "OK."
+  * Adjust the Runtime Classpath for the `DataNucleus` Enhancer: Project --> Properties --> `DataNucleus`. Click 'Add Jars' and then add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2. Make sure the checkbox labeled "Use project classpath when running tools" is *not* selected.  Click "OK."
 
 Once you've completed these steps, you should see output from the Enhancer whenever you modify and save one of your model classes.
 
