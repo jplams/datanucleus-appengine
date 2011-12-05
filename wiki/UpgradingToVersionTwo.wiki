@@ -65,7 +65,16 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the Da
 You can find an example of a working ant config in `<new_sdk_root>/demos/helloorm/build.xml`
 
 == Configuration With Eclipse ==
-TODO(maxr)
+(The following instructions are for Indigo and assume you already have the [[http://code.google.com/appengine/docs/java/tools/eclipse.html][Google Eclipse Plugin] installed)
+   * Disable automatic DataNucleus enhancement by going to Project --> Properties --> Google --> App Engine --> ORM and then removing any patterns that are listed. Click "OK"
+   * Install the DataNucleus Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. The relevant sections are "Installation," "General Preferences," "Preferences: Enhancer," "Enable DataNucleus Support," and "Run the Enhancer."
+
+
+Create a new project.
+
+Select your SDK with the new DN version.
+
+Update jdoconfig.xml as described above.
 
 == Configuration With IntelliJ ==
 (TODO(maxr)
