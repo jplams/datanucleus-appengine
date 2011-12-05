@@ -5,7 +5,7 @@ This page contains instructions for upgrading from version 1.X of the plugin to 
 
 
 = Installation =
-We recommend you make a fresh copy of the SDK, install the DataNucleus plugin there, and then develop against this copy of the SDK. Here is the sequence of commands you can use, assuming your sdk lives in `<sdk_root>`:
+We recommend you make a fresh copy of the SDK, install the `DataNucleus` plugin there, and then develop against this copy of the SDK. Here is the sequence of commands you can use, assuming your sdk lives in `<sdk_root>`:
 
 Make a copy of the SDK:
 <br>
@@ -35,7 +35,7 @@ should now be `org.datanucleus.api.jdo.JDOPersistenceManagerFactory`. See http:/
 In persistence.xml, the value of `provider` should now be `org.datanucleus.api.jpa.PersistenceProviderImpl`. See http://code.google.com/p/datanucleus-appengine/source/browse/trunk/tests/META-INF/persistence.xml for an example.
 
 == Configuration With Ant ==
-The enhancement Ant task that ships with the SDK does not work with v2 of the DataNucleus plugin, so if you're using Ant you'll need to use the DataNucleus enhancement task directly in your `build.xml`:
+The enhancement Ant task that ships with the SDK does not work with v2 of the `DataNucleus` plugin, so if you're using Ant you'll need to use the `DataNucleus` enhancement task directly in your `build.xml`:
 {{{
 
 <path id="enhancer.classpath">
