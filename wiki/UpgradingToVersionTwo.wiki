@@ -27,12 +27,12 @@ unzip datanucleus-appengine-2.0.0-RC2-dist.zip
 }}}
 
 = Configuration =
-We have removed the App Engine specific JDO and JPA providers in V2, so you'll need to edit your config files as follows:
+We have removed the App Engine specific JDO and JPA providers in V2, so you'll need to edit your JDO/JPA config files as follows:
 
 In jdoconfig.xml, the value of `javax.jdo.PersistenceManagerFactoryClass`
-should now be `org.datanucleus.api.jdo.JDOPersistenceManagerFactory`.
+should now be `org.datanucleus.api.jdo.JDOPersistenceManagerFactory`. See http://code.google.com/p/datanucleus-appengine/source/browse/trunk/tests/META-INF/jdoconfig.xml for an example.
 
-In persistence.xml, the value of `provider` should now be `org.datanucleus.api.jpa.PersistenceProviderImpl`.
+In persistence.xml, the value of `provider` should now be `org.datanucleus.api.jpa.PersistenceProviderImpl`. See http://code.google.com/p/datanucleus-appengine/source/browse/trunk/tests/META-INF/persistence.xml for an example.
 
 == Configuration With Ant ==
 The enhancement Ant task that ships with the SDK does not work with v2 of the DataNucleus plugin, so if you're using Ant you'll need to use the DataNucleus enhancement task directly in your `build.xml`:
@@ -66,13 +66,9 @@ You can find an example of a working ant config in `<new_sdk_root>/demos/helloor
 
 == Configuration With Eclipse ==
 (The following instructions are for Indigo and assume you already have the [[http://code.google.com/appengine/docs/java/tools/eclipse.html][Google Eclipse Plugin] installed)
+   * Configure your project to use the SDK containing the new version of the DataNucleus App Engine plugin by going to Project --> Properties --> Google --> App Engine. Add the SDK by clicking "Configure SDKs" and then select that SDK for your project (Use specific SDK).
    * Disable automatic DataNucleus enhancement by going to Project --> Properties --> Google --> App Engine --> ORM and then removing any patterns that are listed. Click "OK"
-   * Install the DataNucleus Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. The relevant sections are "Installation," "General Preferences," "Preferences: Enhancer," "Enable DataNucleus Support," and "Run the Enhancer."
-
-
-Create a new project.
-
-Select your SDK with the new DN version.
+   * Install and configure the DataNucleus Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. The relevant sections are "Installation," "General Preferences," "Preferences: Enhancer," "Enable `DataNucleus` Support," and "Run the Enhancer."
 
 Update jdoconfig.xml as described above.
 
