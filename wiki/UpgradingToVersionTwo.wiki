@@ -71,7 +71,9 @@ You can find an example of a working ant config in `<new_sdk_root>/demos/helloor
    * Install and configure the `DataNucleus` Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. The relevant sections are "Installation," "General Preferences," "Preferences: Enhancer," "Enable `DataNucleus` Support," and "Run the Enhancer."
   * Adjust Runtime Classpath for the `DataNucleus` Enhancer: Project --> Properties --> `DataNucleus`. Click 'Add Jars' and then add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2. Click "OK"
 
+Once you've completed these steps, you should see output from the Enhancer whenever you modify and save one of your model classes.
+
 == Configuration With IntelliJ ==
-(TODO(maxr)
+TODO(maxr)
 
 == ==
