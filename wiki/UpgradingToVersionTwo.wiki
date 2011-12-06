@@ -71,16 +71,16 @@ You can find an example of a working ant config in `<new_sdk_root>/demos/helloor
    * Add the JDO or JPA API jar in `<new_sdk_root>`/lib/opt/user/datanucleus/v2 to the Build Path for your project: Right-click on your project, choose Build Path --> Configure Build Path, then click "Add External JARs." For JDO, add jdo-api-3.0.jar. For JPA add geronimo-jpa_2.0_spec-1.0.jar.
    * Copy the contents of `<new_sdk_root>`/lib/opt/user/datanucleus/v2 to your project's war/WEB-INF/lib directory.
    * Install and configure the `DataNucleus` Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. 
-  # Follow the instructions under "Plugin Installation" 
-  # Follow the instructions under "Plugin Configuration" 
-  # Follow the instructions under "Plugin Configuration - General" but note that the screenshot refers to an old version of `DataNucleus.` You will instead want to add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2 and make sure the checkbox labeled "Use project classpath when running tools" is _not_ selected.
-  # Follow the instructions under "Plugin configuration - Enhancer"
-  # _Skip_ the instructions under "Plugin configuration - SchemaTool"
-  # Follow the instructions under "Enabling DataNucleus support"
-  # _Skip_ the instructions under "Defining JDO2 Metadata"
-  # _Skip_ the instructions under "Defining 'persistence.xml'"
-  # Follow the instructions under "Enhancing the classes"
-  # _Skip_ the instructions under "Generating your database schema (RDBMS)"
+    * Follow the instructions under "Plugin Installation" 
+    * Follow the instructions under "Plugin Configuration" 
+    * Follow the instructions under "Plugin Configuration - General" but note that the screenshot refers to an old version of `DataNucleus.` You will instead want to add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2 and make sure the checkbox labeled "Use project classpath when running tools" is _not_ selected.
+    * Follow the instructions under "Plugin configuration - Enhancer"
+    * _Skip_ the instructions under "Plugin configuration - SchemaTool"
+    * Follow the instructions under "Enabling DataNucleus support"
+    * _Skip_ the instructions under "Defining JDO2 Metadata"
+    * _Skip_ the instructions under "Defining 'persistence.xml'"
+    * Follow the instructions under "Enhancing the classes"
+    * _Skip_ the instructions under "Generating your database schema (RDBMS)"
 
 Once you've completed these steps, you should see output from the Enhancer whenever you modify and save one of your model classes.
 
