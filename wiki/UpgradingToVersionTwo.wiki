@@ -68,10 +68,12 @@ You can find an example of a working ant config in `<new_sdk_root>/demos/helloor
 (The following instructions are for Indigo and assume you already have the [http://code.google.com/appengine/docs/java/tools/eclipse.html Google Eclipse Plugin] installed)
    * Disable the v1 `DataNucleus` enhancement by going to Project --> Properties --> Google --> App Engine --> ORM and then removing any patterns that are listed. Click "OK."
    * Configure your project to use the SDK containing the new version of the `DataNucleus` App Engine plugin by going to Project --> Properties --> Google --> App Engine. Add the SDK by clicking "Configure SDKs" and then select that SDK for your project (Use specific SDK).
+   * Add the JDO or JPA API jar in `<new_sdk_root>`/lib/opt/user/datanucleus/v2 to the Build Path for your project: Right-click on your project, choose Build Path --> Configure Build Path. For JDO, add jdo-api-3.0.jar. For JPA add geronimo-jpa_2.0_spec-1.0.jar.
+   * Copy the contents of `<new_sdk_root>`/lib/opt/user/datanucleus/v2 to your project's war/WEB-INF/lib directory.
    * Install and configure the `DataNucleus` Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. The relevant sections are "Installation," "General Preferences," "Preferences: Enhancer," "Enable `DataNucleus` Support," and "Run the Enhancer."
   * Adjust the Runtime Classpath for the `DataNucleus` Enhancer: Project --> Properties --> `DataNucleus`. Click 'Add Jars' and then add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2. Make sure the checkbox labeled "Use project classpath when running tools" is *not* selected.  Click "OK."
 
-Once you've completed these steps, you should see output from the Enhancer whenever you modify and save one of your model classes.
+Once you've completed these steps, you should see output from the Enhancer whenever you modify and save one of your model classes. As a final step you'll need 
 
 == Configuration With IntelliJ ==
 TODO(maxr)
