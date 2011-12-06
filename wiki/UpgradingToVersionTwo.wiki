@@ -73,7 +73,7 @@ You can find an example of a working ant config in `<new_sdk_root>/demos/helloor
    * Install and configure the `DataNucleus` Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. 
     * Follow the instructions under "Plugin Installation" 
     * Follow the instructions under "Plugin Configuration" 
-    * Follow the instructions under "Plugin Configuration - General" but note that the screenshot refers to an old version of `DataNucleus.` You will instead want to add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2 and make sure the checkbox labeled "Use project classpath when running tools" is _not_ selected.
+    * Follow the instructions under "Plugin Configuration - General" but note that the screenshot refers to an old version of `DataNucleus` and references maven jars. You will instead want to add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2 and make sure the checkbox labeled "Use project classpath when running tools" is _not_ selected.
     * Follow the instructions under "Plugin configuration - Enhancer"
     * _Skip_ the instructions under "Plugin configuration - SchemaTool"
     * Follow the instructions under "Enabling DataNucleus support"
