@@ -61,7 +61,21 @@ The enhancement Ant task that ships with the SDK does not work with v2 of the `D
     </datanucleusenhancer>
 </target>
 }}}
-
+Also, if you have an ant task that copies jars out of the sdk and into your WEB-INF/lib directory, you'll need to adjust it to copy the `DataNucleus` jars from their new location:
+{{{
+<target name="copyjars"
+      description="Copies the App Engine JARs to the WAR.">
+    <mkdir dir="war/WEB-INF/lib" />
+    <copy todir="war/WEB-INF/lib" flatten="true">
+        <fileset dir="${sdk.dir}/lib/user">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${sdk.dir}/lib/opt/user">
+            <include name="**/*.jar" />
+        </fileset>
+    </copy>
+</target>
+}}}
 You can find an example of a working ant config in `<new_sdk_root>/demos/helloorm/build.xml`
 
 == Configuration With Eclipse ==
