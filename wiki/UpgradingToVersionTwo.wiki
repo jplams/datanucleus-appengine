@@ -87,7 +87,7 @@ You can find an example of a working ant config in `<new_sdk_root>/demos/helloor
    * Install and configure the `DataNucleus` Eclipse plugin. Instructions are available at http://www.datanucleus.org/products/accessplatform/guides/eclipse/index.html. 
     * Follow the instructions under "Plugin Installation" 
     * Follow the instructions under "Plugin Configuration" 
-    * Follow the instructions under "Plugin Configuration - General" but note that the screenshot refers to an old version of `DataNucleus` and references maven jars. You will instead want to add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2 and make sure the checkbox labeled "Use project classpath when running tools" is _not_ selected.
+    * Follow the instructions under "Plugin Configuration - General". You will instead want to add all jars in `<new_sdk_root>`/lib/opt/tools/datanucleus/v2 and make sure the checkbox labeled "Use project classpath when running tools" is _not_ selected.
     * Follow the instructions under "Plugin configuration - Enhancer"
     * _Skip_ the instructions under "Plugin configuration - SchemaTool"
     * Follow the instructions under "Enabling DataNucleus support"
@@ -100,5 +100,87 @@ Once you've completed these steps, you should see output from the Enhancer whene
 
 == Configuration With IntelliJ ==
 TODO(maxr)
+
+== Configuration With Maven ==
+In terms of dependencies, you need the *datanucleus-appengine* jar and its dependencies, namely *datanucleus-core*, *datanucleus-api-jdo* or *datanucleus-api-jpa* depending if using JDO or JPA respectively, as well as the JDO API jar (*jdo-api-3.0.jar*) or JPA API jar (*geronimo-jpa_2.0_spec-1.0.jar*). Like this for JDO
+{{{
+    <dependencies>
+        <dependency>
+            <groupId>com.google.appengine.orm</groupId>
+            <artifactId>datanucleus-appengine</artifactId>
+            <version>2.0.0-RC2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-core</artifactId>
+            <version>(2.9, )</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-api-jdo</artifactId>
+            <version>(2.9, )</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>javax.jdo</groupId>
+            <artifactId>jdo-api</artifactId>
+            <version>[3.0, 4.0)</version>
+        </dependency>
+        ...
+    </dependencies>
+}}}
+or for JPA
+{{{
+    <dependencies>
+        <dependency>
+            <groupId>com.google.appengine.orm</groupId>
+            <artifactId>datanucleus-appengine</artifactId>
+            <version>2.0.0-RC2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-core</artifactId>
+            <version>(2.9, )</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-api-jpa</artifactId>
+            <version>(2.9, )</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jpa_2.0_spec</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.jdo</groupId>
+            <artifactId>jdo-api</artifactId>
+            <version>[3.0, 4.0)</version>
+        </dependency>
+        ...
+    </dependencies>
+}}}
+in addition to any other appengine dependencies such as appengine-api. To provide enhancement you can use the DataNucleus Maven plugin, like this
+
+{{{
+    <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>maven-datanucleus-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+            <verbose>true</verbose>
+        </configuration>
+        <executions>
+            <execution>
+                <phase>process-classes</phase>
+                <goals>
+                    <goal>enhance</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+}}}
+Please refer to the DataNucleus docs for more details http://www.datanucleus.org/products/accessplatform/enhancer.html#maven2
+
 
 == ==
