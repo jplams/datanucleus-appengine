@@ -13,3 +13,7 @@ Requires SDK 1.2.1<br>
 *2.0:*<br>
 Requires !DataNucleus 3.0+ (core, api-jdo, api-jpa, enhancer).<br>
 Requires SDK 1.5.4+<br>
+
+*2.1:*<br>
+Requires !DataNucleus 3.1+ (core, api-jdo, api-jpa, enhancer).<br>
+Requires SDK 1.6.4+<br>
