@@ -113,12 +113,12 @@ In terms of dependencies, you need the *datanucleus-appengine* jar and its depen
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-core</artifactId>
-            <version>[3.0, 3.1)</version>
+            <version>[3.0, 3.0.99)</version>
         </dependency>
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-api-jdo</artifactId>
-            <version>[3.0, 3.1)</version>
+            <version>[3.0, 3.0.99)</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -140,12 +140,12 @@ or for JPA
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-core</artifactId>
-            <version>[3.0, 3.1)</version>
+            <version>[3.0, 3.0.99)</version>
         </dependency>
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-api-jpa</artifactId>
-            <version>[3.0, 3.1)</version>
+            <version>[3.0, 3.0.99)</version>
         </dependency>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
