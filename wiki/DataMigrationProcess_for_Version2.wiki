@@ -1,4 +1,4 @@
-#summary This page defines how to migrate data generated using v1 of the JDO/JPA plugin, ready for use with v2.
+#summary This page defines how to migrate data generated using v1 of the JDO/JPA plugin and make it ready for use with v2.
 
 = Introduction =
 
