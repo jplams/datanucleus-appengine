@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="gae" default="testdist">
+
+  <property name="version.major" value="2"/>
+  <property name="version.minor" value="1"/>
+  <property name="version.point" value="1"/>
+  <property name="version.rc" value="-SNAPSHOT"/>
+  <property name="version" value="${version.major}.${version.minor}.${version.point}${version.rc}"/>
+  <property name="zip.prefix" value="datanucleus-appengine"/>
+  <property name="dist.target" value="../target/${zip.prefix}-${version}-dist.zip"/>
+  <property name="orm.lib.dir" value="../lib"/>
+  <property name="orm.tmpdist.dir" value="/tmp/testdist"/>
+  <property name="orm.sdk.tmpdist.dir" value="${orm.tmpdist.dir}"/>
+  <property name="orm.sdk.tmpdist.lib.dir" value="${orm.sdk.tmpdist.dir}/lib"/>
+
+  <target name="dist" description="Build the datanucleus appengine distribution">
+      <exec executable="mvn" failifexecutionfails="true" failonerror="true" dir="..">
+        <arg value="clean"/>
+        <arg value="package"/>
+      </exec>
+  </target>
+
+  <target name="testdist" depends="dist"
+          description="Unzip the dist, launch one of the sample apps, and hit it
+                       with curl to make sure it is functioning properly.">
+    <!--
+      Setup a directory for the test distribution
+      It should look like this:
+      /tmp/testdist/lib
+      /tmp/testdist/lib/appengine-tools-api.jar
+      /tmp/testdist/lib/impl/appengine-local-runtime.jar
+      /tmp/testdist/lib/impl/appengine-api.jar
+      /tmp/testdist/lib/impl/appengine-api-stubs.jar
+      /tmp/testdist/lib/shared/geronimo-servlet_2.5_spec-1.2.jar
+      /tmp/testdist/lib/shared/geronimo-jsp_2.1_spec-1.0.1.jar
+      /tmp/testdist/lib/shared/geronimo-el_1.0_spec-1.0.1.jar
+      /tmp/testdist/lib/shared/appengine-local-runtime-shared.jar
+      /tmp/testdist/lib/shared/jsp/jasper-compiler-5.0.28.jar
+      /tmp/testdist/lib/shared/jsp/jasper-runtime-5.0.28.jar
+      /tmp/testdist/lib/shared/jsp/commons-logging-1.1.1.jar
+      /tmp/testdist/lib/tools/jsp
+      /tmp/testdist/lib/agent
+      /tmp/testdist/lib/agent/appengine-agent.jar
+      /tmp/testdist/lib/agent/appengine-agentimpl.jar
+      /tmp/testdist/lib/impl/agent
+      /tmp/testdist/lib/impl/agent/appengine-agentruntime.jar
+      /tmp/testdist/lib/user/appengine-api.jar
+      /tmp/testdist/lib/opt/tools/appengine-local-endpoints/v1/appengine-local-endpoints.jar
+      /tmp/testdist/config/user/ant-macros.xml
+     -->
+    <delete dir="${orm.tmpdist.dir}"/>
+    <mkdir dir="${orm.tmpdist.dir}"/>
+
+    <!-- Now setup a directory that contains the sdk jars we need to run the demos -->
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}">
+      <fileset dir="${orm.lib.dir}">
+        <include name="appengine-tools-api.jar"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/impl"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}/impl">
+      <fileset dir="${orm.lib.dir}">
+        <include name="appengine-local-runtime.jar"/>
+        <include name="appengine-api-stubs.jar"/>
+        <include name="appengine-api.jar"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/shared"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}/shared">
+      <fileset dir="${orm.lib.dir}">
+        <include name="appengine-local-runtime-shared.jar"/>
+        <include name="geronimo-servlet*.jar"/>
+        <include name="geronimo-jsp*.jar"/>
+        <include name="geronimo-el*.jar"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/shared/jsp"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}/shared/jsp">
+      <fileset dir="${orm.lib.dir}">
+        <include name="repackaged-appengine-jasper-compiler-5.0.28.jar"/>
+        <include name="repackaged-appengine-jasper-runtime-5.0.28.jar"/>
+        <include name="repackaged-appengine-commons-logging-1.1.1.jar"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/agent"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}/agent">
+      <fileset dir="${orm.lib.dir}">
+        <include name="appengine-agent.jar"/>
+        <include name="appengine-agentimpl.jar"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/impl/agent"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}/impl/agent">
+      <fileset dir="${orm.lib.dir}">
+        <include name="appengine-agentruntime.jar"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/user"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}/user">
+      <fileset dir="${orm.lib.dir}">
+        <include name="appengine-api-1.0-sdk*.jar"/>
+      </fileset>
+    </copy>
+
+    <!-- directory just needs to exist -->
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/tools/jsp"/>
+
+    <mkdir dir="${orm.sdk.tmpdist.dir}/config/user"/>
+    <copy todir="${orm.sdk.tmpdist.dir}/config/user">
+      <fileset dir=".">
+        <include name="ant-macros.xml"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.lib.dir}/opt/tools/appengine-local-endpoints/v1"/>
+    <copy todir="${orm.sdk.tmpdist.lib.dir}/opt/tools/appengine-local-endpoints/v1">
+      <fileset dir=".">
+        <include name="appengine-local-endpoints.jar"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${orm.sdk.tmpdist.dir}/config/sdk"/>
+    <copy todir="${orm.sdk.tmpdist.dir}/config/sdk">
+      <fileset dir=".">
+        <include name="logging.properties"/>
+      </fileset>
+    </copy>
+
+    <unzip src="${dist.target}" dest="${orm.tmpdist.dir}"/>
+
+    <property name="sdk.dir" value="${orm.sdk.tmpdist.lib.dir}/.."/>
+    <parallel>
+      <daemons>
+        <ant antfile="${orm.tmpdist.dir}/demos/helloorm2/build.xml" target="runserver"
+           dir="${orm.tmpdist.dir}/demos/helloorm2/"/>
+      </daemons>
+      <sequential>
+        <sleep seconds="10"/>
+
+        <!-- create a flight -->
+        <exec executable="curl" failifexecutionfails="true" failonerror="true">
+          <arg value="-d"/>
+          <arg value="orig=BOS&amp;dest=LAX"/>
+          <arg value="http://localhost:8080/addFlight"/>
+        </exec>
+        <exec executable="curl" failifexecutionfails="true" failonerror="true" outputproperty="curl.add.result">
+          <arg value="http://localhost:8080"/>
+        </exec>
+        <condition property="expected.add.response">
+          <contains string="${curl.add.result}" substring="getFlight?key=1"/>
+        </condition>
+        <fail unless="expected.add.response" message="Did not get the expected add response: ${curl.add.result}${line.separator}${line.separator}    BUILD FAILED!!!!"/>
+
+         <!-- issue a jpql query -->
+        <exec executable="curl" failifexecutionfails="true" failonerror="true" outputproperty="curl.query.result">
+          <arg value="-d"/>
+          <arg value="q=SELECT f FROM com.google.appengine.demos.helloorm.Flight AS f where orig = 'BOS'"/>
+          <arg value="http://localhost:8080"/>
+        </exec>
+        <condition property="expected.query.response">
+          <contains string="${curl.query.result}" substring="getFlight?key=1"/>
+        </condition>
+        <fail unless="expected.query.response" message="Did not get the expected query response: ${curl.query.result}${line.separator}${line.separator}    BUILD FAILED!!!!"/>
+
+        <!-- switch to jdo -->
+       <exec executable="curl" failifexecutionfails="true" failonerror="true">
+         <arg value="-d"/>
+         <arg value="persistenceStandard=JDO"/>
+         <arg value="http://localhost:8080/updatePersistenceStandard"/>
+       </exec>
+        <exec executable="curl" failifexecutionfails="true" failonerror="true" outputproperty="curl.switchps.result">
+          <arg value="http://localhost:8080"/>
+        </exec>
+       <condition property="expected.switchps.response">
+         <contains string="${curl.switchps.result}" substring="Persistence standard is JDO"/>
+       </condition>
+       <fail unless="expected.switchps.response" message="Did not get the expected switchps response: ${curl.switchps.result}${line.separator}${line.separator}    BUILD FAILED!!!!"/>
+      </sequential>
+    </parallel>
+  </target>
+
+  <!-- Default value.  Properties can't change once set so if user overrides on the command
+       line this gets ignored.  This is what we want. -->
+  <property name="appengine.sdk.path" value="../../appengine-java-sdk"/>
+  <property name="appengine.sdk.lib.path" value="${appengine.sdk.path}/lib"/>
+  <property name="appengine.sdk.config.path" value="${appengine.sdk.path}/config"/>
+
+  <target name="updatesdkjars"
+          description="Pull in new sdk jars.  Assumes sdk is located at ../../appengine-java-sdk.  Pass -Dappengine.sdk.path=/path/to/sdk to override.">
+      <available file="${appengine.sdk.lib.path}" property="libDirExists"/>
+      <fail unless="libDirExists" message="${appengine.sdk.lib.path} does not exist.  Pass -Dappengine.sdk.path=/path/to/sdk to override the default sdk location."/>
+      <copy  todir="../lib" verbose="true" overwrite="true">
+        <fileset dir="${appengine.sdk.lib.path}" includes="appengine-tools-api.jar"/>
+        <fileset dir="${appengine.sdk.lib.path}/user" includes = "appengine-api-1.0-sdk*.jar"/>
+        <fileset dir="${appengine.sdk.lib.path}/impl" includes = "*.jar"/>
+        <fileset dir="${appengine.sdk.lib.path}/impl/agent" includes = "*.jar"/>
+        <fileset dir="${appengine.sdk.lib.path}/shared" includes = "appengine*.jar"/>
+        <fileset dir="${appengine.sdk.lib.path}/agent" includes = "*.jar"/>
+        <fileset dir="${appengine.sdk.lib.path}/testing" includes = "*.jar"/>
+        <fileset dir="${appengine.sdk.lib.path}/opt/tools/appengine-local-endpoints/v1" includes = "*.jar"/>
+      </copy>
+      <copy  todir="." verbose="true" overwrite="true">
+        <fileset dir="${appengine.sdk.config.path}/user" includes="ant-macros.xml"/>
+      </copy>
+  </target>
+</project>
