@@ -10,6 +10,9 @@ You can integrate JDO/JPA with GWT simply by observing detachability of classes,
 If you refer to [http://blog.cloudglow.com/2010/04/google-app-engine-arraylist-jdo-object.html CloudGlow Blog] you see the results of using an early version of the plugin. Note that the user did not explicitly detach the object graph, and consequently any collection/map field will have been replaced by a wrapper to intercept updates. If you just take that a step further 
 
 {{{
+// Make sure you mark all classes with @Detachable (or equivalent in XML)
+
+
 // Set our fetch groups so we retrieve all fields we want in GWT
 pm.getFetchPlan().setGroup("all");
 
