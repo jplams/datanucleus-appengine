@@ -1,4 +1,4 @@
-#summary Placeholder for status on integrating with GWT
+#summary Integration of a JDO/JPA GAE persistence solution with GWT
 
 = Introduction =
 
@@ -24,6 +24,8 @@ List<MyClass> detachedList = pm.detachCopyAll(myobjects);
 // Now you can use "detachedList" for passing across to GWT via RPC.
 }}}
 Obviously this is just a simple example, and you could also take advantage of detachAllOnCommit functionality to avoid the explicit detach call (see the JDO docs for DataNucleus).
+
+
 
 And the same for JPA
 {{{
