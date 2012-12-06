@@ -1,0 +1,107 @@
+<!-- ant build for the library orm demo app -->
+<project name="library" default="launch" basedir=".">
+
+  <property name="sdk.lib.dir" value="/tmp/appengine-java-sdk/lib"/>
+  <property name="testing.dir" value=".."/>
+  <property name="war.dir" value="war"/>
+
+  <target name="clean" description="clean up">
+    <delete dir="classes"/>
+    <delete dir="${war.dir}"/>
+  </target>
+
+  <target name="launch" description="launch the app" depends="package">
+    <java fork="true" classpath="${sdk.lib.dir}/appengine-tools-api.jar"
+          classname="com.google.appengine.tools.development.DevAppServerMain" failonerror="true">
+      <jvmarg
+          line="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5007"/>
+      <arg value="--port=8085"/>
+      <arg value="${war.dir}"/>
+    </java>
+  </target>
+
+  <target name="relaunch" description="relaunch the app">
+    <java fork="true" classpath="${sdk.lib.dir}/appengine-tools-api.jar"
+          classname="com.google.appengine.tools.development.DevAppServerMain" failonerror="true">
+      <jvmarg
+          line="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5007"/>
+      <arg value="--port=8085"/>
+      <arg value="${war.dir}"/>
+    </java>
+  </target>
+
+  <target name="package" depends="enhance">
+    <delete dir="${war.dir}"/>
+    <mkdir dir="${war.dir}"/>
+    <copy todir="${war.dir}/WEB-INF/lib" flatten="true" failonerror="true">
+      <fileset dir="${sdk.lib.dir}/user/orm">
+        <include name="datanucleus-jpa-1.1.0.jar"/>
+        <include name="datanucleus-core-1.1.0.jar"/>
+        <include name="jdo2-api-2.3-SNAPSHOT.jar"/>
+        <include name="transaction-api-1.1.jar"/>
+        <include name="geronimo-jpa_3.0_spec-1.1.1.jar"/>
+        <include name="geronimo-jta_1.1_spec-1.1.1.jar"/>
+        <include name="datanucleus-appengine-*.jar"/>
+      </fileset>
+      <fileset dir="${sdk.lib.dir}">
+        <include name="user/appengine-api.jar"/>
+      </fileset>
+     </copy>
+    <copy todir="${war.dir}/WEB-INF" failonerror="true">
+      <fileset dir="src/WEB-INF">
+        <include name="appengine-web.xml"/>
+        <include name="web.xml"/>
+        <include name="datastore-indexes.xml"/>
+      </fileset>
+    </copy>
+    <copy todir="${war.dir}/WEB-INF/classes/META-INF" failonerror="true">
+      <fileset dir="src/META-INF"/>
+    </copy>
+    <copy todir="${war.dir}/WEB-INF/classes" failonerror="true">
+      <fileset dir="classes"/>
+    </copy>
+    <copy todir="${war.dir}/core" failonerror="true">
+      <fileset dir="${testing.dir}/selenium-core">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <copy todir="${war.dir}/tests" failonerror="true">
+      <fileset dir="tests">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <path id="library.classpath">
+    <pathelement location="${sdk.lib.dir}/user/orm/jdo2-api-2.3-SNAPSHOT.jar"/>
+    <pathelement location="${sdk.lib.dir}/user/orm/geronimo-jpa_3.0_spec-1.1.1.jar"/>
+    <pathelement location="${sdk.lib.dir}/user/orm/geronimo-servlet_2.5_spec-1.2.jar"/>
+    <pathelement location="${sdk.lib.dir}/user/appengine-api.jar"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="classes"/>
+    <javac srcdir="src" destdir="classes" classpathref="library.classpath" debug="on" source="1.5"
+           target="1.5"/>
+  </target>
+
+  <path id="enhancer.classpath">
+    <pathelement location="${sdk.lib.dir}/tools/orm/jdo2-api-2.3-SNAPSHOT.jar"/>
+    <pathelement location="${sdk.lib.dir}/tools/orm/datanucleus-enhancer-1.1.0.jar"/>
+    <pathelement location="${sdk.lib.dir}/tools/orm/datanucleus-core-1.1.0.jar"/>
+    <pathelement location="${sdk.lib.dir}/tools/orm/datanucleus-jpa-1.1.0.jar"/>
+    <pathelement location="${sdk.lib.dir}/tools/orm/asm-3.1.jar"/>
+    <pathelement location="classes"/>
+  </path>
+
+  <target name="enhance" depends="compile">
+    <taskdef name="datanucleusenhancer" classpathref="enhancer.classpath"
+             classname="org.datanucleus.enhancer.tools.EnhancerTask"/>
+
+    <datanucleusenhancer classpathref="enhancer.classpath" failonerror="true">
+      <fileset dir="classes">
+        <include name="**/*.class"/>
+      </fileset>
+    </datanucleusenhancer>
+  </target>
+</project>
