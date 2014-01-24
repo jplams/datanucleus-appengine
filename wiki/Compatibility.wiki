@@ -22,7 +22,7 @@ Requires !DataNucleus 3.1.x (core, api-jdo, api-jpa, enhancer).<br>
 Requires SDK 1.6.4+<br>
 <b>Note that this release of Datanucleus is no longer supported by the DataNucleus project</b>
 
-*3.0:*<br>
+*3.0:* (unreleased, only in SVN)<br>
 Requires !DataNucleus 3.2.x/3.3.x (core, api-jdo, api-jpa).<br>
 Requires SDK 1.7.0+<br>
 
